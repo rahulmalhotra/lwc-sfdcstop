@@ -1,0 +1,106 @@
+<template>
+    <lightning-card title="ToDo List" style="width: 100%;">
+        <lightning-button-icon
+            slot="actions"
+            icon-name="utility:sync"
+            alternative-text="Sync"
+            title="Sync"
+        >
+        </lightning-button-icon>
+        <lightning-layout>
+            <lightning-layout-item padding="around-small" size="12">
+                <ul class="slds-has-dividers_around-space">
+                    <li class="slds-item">
+                        <lightning-layout
+                            vertical-align="center"
+                            horizontal-align="spread"
+                        >
+                            <lightning-layout-item padding="horizontal-small">
+                                Task 1
+                            </lightning-layout-item>
+                            <lightning-layout-item padding="horizontal-small">
+                                <lightning-button-icon
+                                    icon-name="utility:delete"
+                                    alternative-text="Delete"
+                                    title="Delete"
+                                ></lightning-button-icon>
+                            </lightning-layout-item>
+                        </lightning-layout>
+                    </li>
+                    <li class="slds-item">
+                        <lightning-layout
+                            vertical-align="center"
+                            horizontal-align="spread"
+                        >
+                            <lightning-layout-item padding="horizontal-small">
+                                Task 2
+                            </lightning-layout-item>
+                            <lightning-layout-item padding="horizontal-small">
+                                <lightning-button-icon
+                                    icon-name="utility:delete"
+                                    alternative-text="Delete"
+                                    title="Delete"
+                                ></lightning-button-icon>
+                            </lightning-layout-item>
+                        </lightning-layout>
+                    </li>
+                    <li class="slds-item">
+                        <lightning-layout
+                            vertical-align="center"
+                            horizontal-align="spread"
+                        >
+                            <lightning-layout-item padding="horizontal-small">
+                                Task 3
+                            </lightning-layout-item>
+                            <lightning-layout-item padding="horizontal-small">
+                                <lightning-button-icon
+                                    icon-name="utility:delete"
+                                    alternative-text="Delete"
+                                    title="Delete"
+                                ></lightning-button-icon>
+                            </lightning-layout-item>
+                        </lightning-layout>
+                    </li>
+                    <li class="slds-item">
+                        <lightning-layout
+                            vertical-align="center"
+                            horizontal-align="spread"
+                        >
+                            <lightning-layout-item padding="horizontal-small">
+                                Task 4
+                            </lightning-layout-item>
+                            <lightning-layout-item padding="horizontal-small">
+                                <lightning-button-icon
+                                    icon-name="utility:delete"
+                                    alternative-text="Delete"
+                                    title="Delete"
+                                ></lightning-button-icon>
+                            </lightning-layout-item>
+                        </lightning-layout>
+                    </li>
+                </ul>
+            </lightning-layout-item>
+        </lightning-layout>
+        <p slot="footer">
+            <lightning-layout pull-to-boundary="small">
+                <lightning-layout-item padding="horizontal-small" flexibility="grow">
+                    <lightning-input
+                        type="text"
+                        placeholder="Enter new task"
+                        variant="label-hidden"
+                        label="New Task"
+                        required
+                    >
+                    </lightning-input>
+                </lightning-layout-item>
+                <lightning-layout-item padding="horizontal-small">
+                    <lightning-button
+                        variant="brand"
+                        label="Add"
+                    >
+                    </lightning-button>
+                </lightning-layout-item>
+            </lightning-layout>
+        </p>
+    </lightning-card>
+</template>
