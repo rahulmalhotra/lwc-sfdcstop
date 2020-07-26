@@ -10,74 +10,25 @@
         <lightning-layout>
             <lightning-layout-item padding="around-small" size="12">
                 <ul class="slds-has-dividers_around-space">
-                    <li class="slds-item">
-                        <lightning-layout
-                            vertical-align="center"
-                            horizontal-align="spread"
-                        >
-                            <lightning-layout-item padding="horizontal-small">
-                                Task 1
-                            </lightning-layout-item>
-                            <lightning-layout-item padding="horizontal-small">
-                                <lightning-button-icon
-                                    icon-name="utility:delete"
-                                    alternative-text="Delete"
-                                    title="Delete"
-                                ></lightning-button-icon>
-                            </lightning-layout-item>
-                        </lightning-layout>
-                    </li>
-                    <li class="slds-item">
-                        <lightning-layout
-                            vertical-align="center"
-                            horizontal-align="spread"
-                        >
-                            <lightning-layout-item padding="horizontal-small">
-                                Task 2
-                            </lightning-layout-item>
-                            <lightning-layout-item padding="horizontal-small">
-                                <lightning-button-icon
-                                    icon-name="utility:delete"
-                                    alternative-text="Delete"
-                                    title="Delete"
-                                ></lightning-button-icon>
-                            </lightning-layout-item>
-                        </lightning-layout>
-                    </li>
-                    <li class="slds-item">
-                        <lightning-layout
-                            vertical-align="center"
-                            horizontal-align="spread"
-                        >
-                            <lightning-layout-item padding="horizontal-small">
-                                Task 3
-                            </lightning-layout-item>
-                            <lightning-layout-item padding="horizontal-small">
-                                <lightning-button-icon
-                                    icon-name="utility:delete"
-                                    alternative-text="Delete"
-                                    title="Delete"
-                                ></lightning-button-icon>
-                            </lightning-layout-item>
-                        </lightning-layout>
-                    </li>
-                    <li class="slds-item">
-                        <lightning-layout
-                            vertical-align="center"
-                            horizontal-align="spread"
-                        >
-                            <lightning-layout-item padding="horizontal-small">
-                                Task 4
-                            </lightning-layout-item>
-                            <lightning-layout-item padding="horizontal-small">
-                                <lightning-button-icon
-                                    icon-name="utility:delete"
-                                    alternative-text="Delete"
-                                    title="Delete"
-                                ></lightning-button-icon>
-                            </lightning-layout-item>
-                        </lightning-layout>
-                    </li>
+                    <template for:each={todoTasks} for:item="todoTask">
+                        <li class="slds-item" key={todoTask.id}>
+                            <lightning-layout
+                                vertical-align="center"
+                                horizontal-align="spread"
+                            >
+                                <lightning-layout-item padding="horizontal-small">
+                                    {todoTask.name}
+                                </lightning-layout-item>
+                                <lightning-layout-item padding="horizontal-small">
+                                    <lightning-button-icon
+                                        icon-name="utility:delete"
+                                        alternative-text="Delete"
+                                        title="Delete"
+                                    ></lightning-button-icon>
+                                </lightning-layout-item>
+                            </lightning-layout>
+                        </li>
+                    </template>
                 </ul>
             </lightning-layout-item>
         </lightning-layout>
@@ -88,7 +39,9 @@
                         type="text"
                         placeholder="Enter new task"
                         variant="label-hidden"
+                        value={newTask}
                         label="New Task"
+                        onchange={updateNewTask}
                         required
                     >
                     </lightning-input>
@@ -97,6 +50,7 @@
                     <lightning-button
                         variant="brand"
                         label="Add"
+                        onclick={addTaskToList}
                     >
                     </lightning-button>
                 </lightning-layout-item>
