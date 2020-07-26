@@ -1,3 +1,9 @@
+<!--
+*    Author: Rahul Malhotra
+*    Source: SFDC Stop (https://www.sfdcstop.com)
+*    Description:- Todo List Component
+*    URL:- https://github.com/rahulmalhotra/lwc-sfdcstop
+-->
 <template>
     <lightning-card title="ToDo List" style="width: 100%;">
         <lightning-button-icon
@@ -23,6 +29,8 @@
                                     <lightning-button-icon
                                         icon-name="utility:delete"
                                         alternative-text="Delete"
+                                        name={todoTask.id}
+                                        onclick={deleteTaskFromList}
                                         title="Delete"
                                     ></lightning-button-icon>
                                 </lightning-layout-item>
