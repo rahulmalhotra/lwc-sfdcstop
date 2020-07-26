@@ -13,6 +13,13 @@ export default class Todo extends LightningElement {
 
     addTaskToList(event) {
         // * Unshift function - used to add element at the beginning of the array
+        /*
+        *   Uncomment this to use the unshift function and comment the below push function
+        this.todoTasks.unshift({
+            id: this.todoTasks.length + 1,
+            name: this.newTask
+        });
+        */
         // * Push function - used to add element at the end of the array
         this.todoTasks.push({
             id: this.todoTasks.length + 1,
