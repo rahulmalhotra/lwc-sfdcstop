@@ -41,7 +41,7 @@
             </lightning-layout-item>
         </lightning-layout>
         <p slot="footer">
-            <lightning-layout pull-to-boundary="small" horizontal-align="space">
+            <lightning-layout pull-to-boundary="small">
                 <!-- Input text field to enter the Label of new Task -->
                 <lightning-layout-item padding="horizontal-small" flexibility="grow">
                     <lightning-input
@@ -51,17 +51,16 @@
                         value={newTask}
                         label="New Task"
                         onchange={updateNewTask}
-                        required
-                    ></lightning-input>
+                        required>
+                    </lightning-input>
                 </lightning-layout-item>
                 <!-- Button to add New Task to the ToDo List -->
                 <lightning-layout-item padding="horizontal-small">
                     <lightning-button
-                        name="newTask"
-                        label="Add"
                         variant="brand"
-                        onclick={addTaskToList}
-                    ></lightning-button>
+                        label="Add"
+                        onclick={addTaskToList}>
+                    </lightning-button>
                 </lightning-layout-item>
             </lightning-layout>
         </p>
