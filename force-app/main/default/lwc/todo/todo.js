@@ -4,13 +4,14 @@
 *    Description:- Todo List Component
 *    URL:- https://github.com/rahulmalhotra/lwc-sfdcstop
 */
-import { LightningElement, track } from 'lwc';
+import { LightningElement, track, wire } from 'lwc';
+import getTasks from '@salesforce/apex/ToDoListController.getTasks';
 
 export default class Todo extends LightningElement {
 
     // * Array to store all the todo tasks
-    @track
-    todoTasks = [];
+    // @track
+    // todoTasks = [];
 
     // * Variable to store the new task that you want to add to the list
     newTask = '';
@@ -42,10 +43,18 @@ export default class Todo extends LightningElement {
         */
 
         // * Push function - used to add element at the end of the array
+        /*
         this.todoTasks.push({
             id: this.todoTasks.length + 1,
             name: this.newTask
         });
+        */
+        // * This code is used with apex wire linked with todoTasks property
+        this.todoTasks.data.push({
+            Id: this.todoTasks.data.length + 1,
+            Subject: this.newTask
+        });
+        // * Updation above is not allowed
         this.newTask = '';
     }
 
@@ -93,4 +102,22 @@ export default class Todo extends LightningElement {
         // * Method 3
         // todoTasks.splice(todoTasks.findIndex(todoTask => todoTask.id === idToDelete), 1);
     }
+
+    /*
+    *   Use case:- If you want to display the data in lwc component
+    *   and there is no need to update that data in js, bind your property with
+    *   wire service in lwc.
+    */
+    @wire(getTasks)
+    todoTasks; // * This is immutable and cannot be changed
+
+    /*
+    *
+        todoTasks = {
+            data: [list of tasks],
+            error: 'consist of error message'
+        };
+    *
+    */
+
 }
