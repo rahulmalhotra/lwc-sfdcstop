@@ -4,13 +4,14 @@
 *    Description:- Todo List Component
 *    URL:- https://github.com/rahulmalhotra/lwc-sfdcstop
 */
-import { LightningElement, track } from 'lwc';
+import { LightningElement, track, wire } from 'lwc';
+import getTasks from '@salesforce/apex/ToDoListController.getTasks';
 
 export default class Todo extends LightningElement {
 
     // * Array to store all the todo tasks
-    @track
-    todoTasks = [];
+    // @track
+    // todoTasks = [];
 
     // * Variable to store the new task that you want to add to the list
     newTask = '';
@@ -42,9 +43,15 @@ export default class Todo extends LightningElement {
         */
 
         // * Push function - used to add element at the end of the array
+        /*
         this.todoTasks.push({
             id: this.todoTasks.length + 1,
             name: this.newTask
+        });
+        */
+        this.todoTasks.data.push({
+            Id: this.todoTasks.length + 1,
+            Subject: this.newTask
         });
         this.newTask = '';
     }
@@ -93,4 +100,6 @@ export default class Todo extends LightningElement {
         // * Method 3
         // todoTasks.splice(todoTasks.findIndex(todoTask => todoTask.id === idToDelete), 1);
     }
+
+    @wire(getTasks) todoTasks;
 }

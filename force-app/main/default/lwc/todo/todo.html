@@ -18,24 +18,26 @@
             <lightning-layout-item size="12" padding="around-small">
                 <!-- Iterating the ToDo Tasks and displaying them in a list -->
                 <ul class="slds-has-dividers_around-space">
-                    <template for:each={todoTasks} for:item="todoTask">
-                        <li class="slds-item" key={todoTask.id}>
-                            <lightning-layout vertical-align="center" horizontal-align="spread">
-                                <lightning-layout-item padding="horizontal-small">
-                                    {todoTask.name}
-                                </lightning-layout-item>
-                                <lightning-layout-item padding="horizontal-small">
-                                    <!-- Button to delete/remove the task from the list -->
-                                    <lightning-button-icon
-                                        icon-name="utility:delete"
-                                        alternative-text="Delete"
-                                        onclick={deleteTaskFromList}
-                                        name={todoTask.id}
-                                        title="Delete">
-                                    </lightning-button-icon>
-                                </lightning-layout-item>
-                            </lightning-layout>
-                        </li>
+                    <template if:true={todoTasks.data}>
+                        <template for:each={todoTasks.data} for:item="todoTask">
+                            <li class="slds-item" key={todoTask.Id}>
+                                <lightning-layout vertical-align="center" horizontal-align="spread">
+                                    <lightning-layout-item padding="horizontal-small">
+                                        {todoTask.Subject}
+                                    </lightning-layout-item>
+                                    <lightning-layout-item padding="horizontal-small">
+                                        <!-- Button to delete/remove the task from the list -->
+                                        <lightning-button-icon
+                                            icon-name="utility:delete"
+                                            alternative-text="Delete"
+                                            onclick={deleteTaskFromList}
+                                            name={todoTask.Id}
+                                            title="Delete">
+                                        </lightning-button-icon>
+                                    </lightning-layout-item>
+                                </lightning-layout>
+                            </li>
+                        </template>
                     </template>
                 </ul>
             </lightning-layout-item>
