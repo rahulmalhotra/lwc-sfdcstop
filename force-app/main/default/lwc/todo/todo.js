@@ -6,12 +6,17 @@
 */
 import { LightningElement, track, wire } from 'lwc';
 import getTasks from '@salesforce/apex/ToDoListController.getTasks';
+import { refreshApex } from '@salesforce/apex';
+import insertTask from '@salesforce/apex/ToDoListController.insertTask';
+import deleteTask from '@salesforce/apex/ToDoListController.deleteTask';
 
 export default class Todo extends LightningElement {
 
     // * Array to store all the todo tasks
     @track
     todoTasks = [];
+
+    todoTasksResponse;
 
     // * Variable to store the new task that you want to add to the list
     newTask = '';
@@ -42,10 +47,19 @@ export default class Todo extends LightningElement {
         });
         */
 
+        insertTask({ subject: this.newTask })
+        .then(result => {
+            console.log(result);
+        })
+        .catch(error => {
+            console.log(error);
+        });
+
         // * Push function - used to add element at the end of the array
         this.todoTasks.push({
             id: this.todoTasks.length + 1,
-            name: this.newTask
+            name: this.newTask,
+            recordId: null
         });
         this.newTask = '';
     }
@@ -59,6 +73,7 @@ export default class Todo extends LightningElement {
         let idToDelete = event.target.name;
         let todoTasks = this.todoTasks;
         let todoTaskIndex;
+        let recordIdToDelete;
 
         /*
         *   Method 1 - Finding the index of the task to be deleted
@@ -69,6 +84,15 @@ export default class Todo extends LightningElement {
                 todoTaskIndex = i;
             }
         }
+
+        recordIdToDelete = todoTasks[todoTaskIndex].recordId;
+        deleteTask({ recordId : recordIdToDelete })
+        .then(result => {
+            console.log(result);
+        })
+        .catch(error => {
+            console.log(error);
+        });
 
         // * Comment the below line if you're using one of the two approaches given below
         todoTasks.splice(todoTaskIndex, 1);
@@ -94,4 +118,39 @@ export default class Todo extends LightningElement {
         // * Method 3
         // todoTasks.splice(todoTasks.findIndex(todoTask => todoTask.id === idToDelete), 1);
     }
+
+    /*
+    *   This method is used to fetch the tasks from Salesforce and
+    *   update the todoTasks variable
+    */
+    @wire(getTasks)
+    getTodoTasks(response) {
+        let data = response.data;
+        let error = response.error;
+        this.todoTasksResponse = response;
+        if(data) {
+            console.log('data');
+            console.log(data);
+            this.todoTasks = [];
+            data.forEach(task => {
+                this.todoTasks.push({
+                    id: this.todoTasks.length + 1,
+                    name: task.Subject,
+                    recordId: task.Id
+                });
+            });
+        } else if(error) {
+            console.log('error');
+            console.log(error);
+        }
+    }
+
+    /*
+    *   This method is used to refresh the todoTasks variable
+    *   if any change is there on the salesforce end
+    */
+    refreshTodoList() {
+        refreshApex(this.todoTasksResponse);
+    }
+
 }
