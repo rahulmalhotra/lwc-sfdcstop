@@ -6,12 +6,15 @@
 */
 import { LightningElement, track, wire } from 'lwc';
 import getTasks from '@salesforce/apex/ToDoListController.getTasks';
+import { refreshApex } from '@salesforce/apex';
 
 export default class Todo extends LightningElement {
 
     // * Array to store all the todo tasks
     @track
     todoTasks = [];
+
+    todoTasksResponse;
 
     // * Variable to store the new task that you want to add to the list
     newTask = '';
@@ -94,4 +97,44 @@ export default class Todo extends LightningElement {
         // * Method 3
         // todoTasks.splice(todoTasks.findIndex(todoTask => todoTask.id === idToDelete), 1);
     }
+
+    /*
+    *   This method is used to get the list of todo tasks
+    *   from apex controller when the component is initialized
+    *   and update the todoTasks js array
+    */
+    @wire(getTasks)
+    getTodoTasks(response) {
+        this.todoTasksResponse = response;
+        let data = response.data;
+        let error = response.error;
+        if(data) {
+            console.log('data');
+            console.log(data);
+            this.todoTasks = [];
+            data.forEach(task => {
+                this.todoTasks.push({
+                    id: this.todoTasks.length + 1,
+                    name: task.Subject,
+                    recordId: task.Id
+                });
+            });
+        } else if(error) {
+            console.log('error');
+            console.log(error);
+       }
+    }
+
+    /*
+    *   This method is used to refresh the wire method response
+    *   i.e. todoTasks in the browser cache
+    */
+    refreshTodoList() {
+        /*
+        *   It'll refresh the data in browser cache only
+        *   if there is a change on the server side
+        */
+        refreshApex(this.todoTasksResponse);
+    }
+
 }
