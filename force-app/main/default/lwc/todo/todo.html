@@ -13,10 +13,15 @@
             icon-name="utility:sync"
             alternative-text="Refresh"
             onclick={refreshTodoList}
+            disabled={processing}
             title="Refresh">
         </lightning-button-icon>
         <lightning-layout>
             <lightning-layout-item size="12" padding="around-small">
+                <!-- Adding a spinner -->
+                <template if:true={processing}>
+                    <lightning-spinner alternative-text="Loading" size="small"></lightning-spinner>
+                </template>
                 <!-- Iterating the ToDo Tasks and displaying them in a list -->
                 <ul class="slds-has-dividers_around-space">
                     <template for:each={todoTasks} for:item="todoTask">
@@ -32,6 +37,7 @@
                                         alternative-text="Delete"
                                         onclick={deleteTaskFromList}
                                         name={todoTask.id}
+                                        disabled={processing}
                                         title="Delete">
                                     </lightning-button-icon>
                                 </lightning-layout-item>
@@ -52,6 +58,8 @@
                         value={newTask}
                         label="New Task"
                         onchange={updateNewTask}
+                        disabled={processing}
+                        autocomplete="off"
                         required>
                     </lightning-input>
                 </lightning-layout-item>
@@ -60,6 +68,7 @@
                     <lightning-button
                         variant="brand"
                         label="Add"
+                        disabled={processing}
                         onclick={addTaskToList}>
                     </lightning-button>
                 </lightning-layout-item>

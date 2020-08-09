@@ -16,7 +16,11 @@ export default class Todo extends LightningElement {
     @track
     todoTasks = [];
 
+    // * Response variable used in refreshApex
     todoTasksResponse;
+
+    // * Processing variable used for spinner
+    processing = true;
 
     // * Variable to store the new task that you want to add to the list
     newTask = '';
@@ -47,21 +51,22 @@ export default class Todo extends LightningElement {
         });
         */
 
+        this.processing = true;
         insertTask({ subject: this.newTask })
         .then(result => {
             console.log(result);
+            // * Push function - used to add element at the end of the array
+            this.todoTasks.push({
+                id: this.todoTasks.length + 1,
+                name: result.Subject,
+                recordId: result.Id
+            });
+            this.newTask = '';
         })
         .catch(error => {
             console.log(error);
-        });
-
-        // * Push function - used to add element at the end of the array
-        this.todoTasks.push({
-            id: this.todoTasks.length + 1,
-            name: this.newTask,
-            recordId: null
-        });
-        this.newTask = '';
+        })
+        .finally(() => this.processing = false);
     }
 
     /*
@@ -75,6 +80,9 @@ export default class Todo extends LightningElement {
         let todoTaskIndex;
         let recordIdToDelete;
 
+        // * Set processing variable to true
+        this.processing = true;
+
         /*
         *   Method 1 - Finding the index of the task to be deleted
         *   and deleting it using the below command
@@ -86,16 +94,22 @@ export default class Todo extends LightningElement {
         }
 
         recordIdToDelete = todoTasks[todoTaskIndex].recordId;
+
+        // * Delete the task
         deleteTask({ recordId : recordIdToDelete })
         .then(result => {
             console.log(result);
+            if(result) {
+                // * Comment the below line if you're using one of the two approaches given below
+                todoTasks.splice(todoTaskIndex, 1);
+            } else {
+                console.log('Unable to delete task');
+            }
         })
         .catch(error => {
             console.log(error);
-        });
-
-        // * Comment the below line if you're using one of the two approaches given below
-        todoTasks.splice(todoTaskIndex, 1);
+        })
+        .finally(() => this.processing = false);
 
         /*
         *   Un-Comment any one of the two below methods
@@ -126,12 +140,20 @@ export default class Todo extends LightningElement {
     */
     @wire(getTasks)
     getTodoTasks(response) {
-        this.todoTasksResponse = response;
         let data = response.data;
         let error = response.error;
+
+        // * Saving the response to be used in refreshApex
+        this.todoTasksResponse = response;
+
+        // * Set processing to false if response is received
+        if(response.data || response.error)  {
+            this.processing = false;
+        }
         if(data) {
             console.log('data');
             console.log(data);
+            // * Setting up the todo tasks list
             this.todoTasks = [];
             data.forEach(task => {
                 this.todoTasks.push({
@@ -151,11 +173,12 @@ export default class Todo extends LightningElement {
     *   i.e. todoTasks in the browser cache
     */
     refreshTodoList() {
+        this.processing = true;
         /*
         *   It'll refresh the data in browser cache only
         *   if there is a change on the server side
         */
-        refreshApex(this.todoTasksResponse);
+        refreshApex(this.todoTasksResponse)
+        .finally(() => this.processing = false);
     }
-
 }
