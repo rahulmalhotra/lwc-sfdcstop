@@ -19,7 +19,7 @@ public with sharing class ToDoListController {
 
     /*
     *	Author:- Rahul Malhotra
-    *	Description:- This method is used to insert new task
+    *	Description:- This method is used to insert a new task in Salesforce
     */
     @AuraEnabled
     public static Task insertTask(String subject) {
@@ -40,7 +40,7 @@ public with sharing class ToDoListController {
 
     /*
     *	Author:- Rahul Malhotra
-    *	Description:- This method is used to delete a task
+    *	Description:- This method is used to delete a task from Salesforce based on the record id
     */
     @AuraEnabled
     public static Boolean deleteTask(Id recordId) {

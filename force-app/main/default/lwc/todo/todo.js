@@ -120,14 +120,15 @@ export default class Todo extends LightningElement {
     }
 
     /*
-    *   This method is used to fetch the tasks from Salesforce and
-    *   update the todoTasks variable
+    *   This method is used to get the list of todo tasks
+    *   from apex controller when the component is initialized
+    *   and update the todoTasks js array
     */
     @wire(getTasks)
     getTodoTasks(response) {
+        this.todoTasksResponse = response;
         let data = response.data;
         let error = response.error;
-        this.todoTasksResponse = response;
         if(data) {
             console.log('data');
             console.log(data);
@@ -142,14 +143,18 @@ export default class Todo extends LightningElement {
         } else if(error) {
             console.log('error');
             console.log(error);
-        }
+       }
     }
 
     /*
-    *   This method is used to refresh the todoTasks variable
-    *   if any change is there on the salesforce end
+    *   This method is used to refresh the wire method response
+    *   i.e. todoTasks in the browser cache
     */
     refreshTodoList() {
+        /*
+        *   It'll refresh the data in browser cache only
+        *   if there is a change on the server side
+        */
         refreshApex(this.todoTasksResponse);
     }
 
