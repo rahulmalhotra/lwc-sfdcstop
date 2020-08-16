@@ -40,6 +40,10 @@ export default class Todo extends LightningElement {
     */
     addTaskToList(event) {
 
+        if(this.newTask === '') {
+            return;
+        }
+
         /*
         *   Unshift function - used to add element at the beginning of the array
         *   Uncomment this to use the unshift function and comment the below push function
